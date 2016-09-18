@@ -1,0 +1,37 @@
+{
+  "name": "vue-validator-simple",
+  "version": "0.0.1",
+  "description": "simple validator component for Vue.js",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --watch"
+  },
+  "keywords": [
+    "vue",
+    "validator",
+    "simple"
+  ],
+  "author": "JarvanYang",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.7.4",
+    "babel-eslint": "^6.0.4",
+    "babel-loader": "^6.2.2",
+    "babel-plugin-coverage": "^1.0.0",
+    "babel-plugin-espower": "^2.1.2",
+    "babel-polyfill": "^6.9.1",
+    "babel-preset-es2015": "^6.5.0",
+    "eslint": "^3.4.0",
+    "eslint-config-vue": "^1.1.0",
+    "eslint-loader": "^1.3.0",
+    "eslint-plugin-html": "^1.5.2",
+    "lodash": "^4.15.0",
+    "uglify-js": "^2.6.1",
+    "babel-plugin-external-helpers": "^6.8.0",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-register": "^6.11.6",
+    "istanbul": "^0.4.4",
+    "mocha": "^3.0.2",
+    "webpack": "^2.1.0-beta.21"
+  }
+}
