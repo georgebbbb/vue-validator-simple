@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Vue.js Modal Example</title>
+    <script src="http://odqdvpa0f.bkt.clouddn.com/vue.min.js"></script>
+    <script src="../../dist/index.js"></script>
+  </head>
+  <body>
+    <!-- template for the modal component -->
+    <script type="text/x-template" id="simple-form">
+      <div>
+        <div class="">
+          <input v-model="email">
+          <div class="" v-if="validator.email.dirty&&!validator.email.require.valid">
+            不能为空
+          </div>
+          <div class="" v-if="validator.email.dirty&&!validator.email.email.valid">
+            邮箱格式不正确
+          </div>
+        </div>
+        <button type="button" @click="save"  name="button">保存</button>
+      </div>
+    </script>
+
+    <script>
+      Vue.rules = {
+        require(value){
+          return !!value
+        },
+        email(value){
+          return /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(value)
+        }
+      }
+
+      var form = {
+        template: '#simple-form',
+        data: function(){
+          return {
+            email: null
+          }
+        },
+        methods: {
+          save: function(){
+
+          }
+        }
+      }
+      form = validator({
+        email: ['require', 'email'],
+        onSave: 'save'
+      })(form)
+      Vue.component('simple', form)
+    </script>
+
+    <!-- app -->
+    <div id="app">
+      <simple></simple>
+    </div>
+
+    <script>
+      // start app
+      new Vue({
+        el: '#app',
+      })
+    </script>
+  </body>
+</html>
