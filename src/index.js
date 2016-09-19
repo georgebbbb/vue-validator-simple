@@ -1,7 +1,5 @@
 import {array2Obj, isArray, mapValues, assign} from './util'
 
-
-
 export function validator(configs){
 
   //split methods and configs
@@ -20,7 +18,9 @@ export function validator(configs){
   //default all values isn`t dirty and init allPass
   const validator = mapValues(pureCon, value => ({dirty: false}))
   validator.allPass = true
+  validator.allDone = true
   validator.invalidFileds = []
+  validator.pendingFileds = []
   //merge rules
   const rules = assign(Vue.rules, configs.rules)
   if(!rules || Object.keys(rules).length === 0){
@@ -32,12 +32,29 @@ export function validator(configs){
       let self = this
       this.validator[key] =  mapValues(validate, (singleValidatePara, singleValidateFunc) => {
         const result = rules[singleValidateFunc](self[key], singleValidatePara)
+        if(isPromise(result)){
+          validator.pendingFileds.push(key)
+          self.validator[key].isValidating = true
+          validator.allDone = false
+          result.then((promisResult) => {
+            const index = validator.pendingFileds.indexOf(key)
+            if(index >= 0){
+              validator.pendingFileds.splice(index, 1)
+            }
+            self.validator[key].valid = !!promisResult
+            self.validator[key].isValidating = false
+            if(validator.pendingFileds.length === 0){
+              validator.allDone = true
+            }
+          })
+        }
         if(!result){
           self.validator.allPass = false
           self.validator.invalidFileds.push(key)
         }
         return {
           valid: result
+          isValidating: false
         }
       })
       this.validator[key].dirty = true
